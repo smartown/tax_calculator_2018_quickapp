@@ -1,0 +1,66 @@
+{
+  "package": "win.smartown.taxcalculator2018",
+  "name": "2018新个税计算器",
+  "versionName": "1.0.0",
+  "versionCode": "1",
+  "minPlatformVersion": "101",
+  "icon": "/Common/logo.png",
+  "features": [
+    {
+      "name": "system.prompt"
+    },
+    {
+      "name": "system.router"
+    },
+    {
+      "name": "system.shortcut"
+    }
+  ],
+  "permissions": [
+    {
+      "origin": "*"
+    }
+  ],
+  "config": {
+    "logLevel": "off"
+  },
+  "router": {
+    "entry": "Index",
+    "pages": {
+      "DemoDetail": {
+        "component": "index"
+      },
+      "About": {
+        "component": "index"
+      },
+      "Index": {
+        "component": "index"
+      }
+    },
+    "widgets": {
+      "CardDemo": {
+        "name": "CardDemo",
+        "decription": "快应用卡片展示",
+        "component": "index",
+        "path": "/CardDemo",
+        "features": []
+      }
+    }
+  },
+  "display": {
+    "titleBarBackgroundColor": "#141a32",
+    "titleBarTextColor": "#ffffff",
+    "menu": true,
+    "pages": {
+      "DemoDetail": {
+        "titleBarText": "详情页"
+      },
+      "About": {
+        "menu": false
+      },
+      "Index": {
+        "titleBarText": "2018新个税计算器"
+      }
+    }
+  }
+}

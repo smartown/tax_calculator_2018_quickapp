@@ -1,0 +1,210 @@
+<template>
+  <div class='background-color-141a32' style='flex-direction: column'>
+    <div if='{{!dialog}}' class='content'>
+      <div class='section'>
+        <block for='fixedItems'>
+          <div class='edit-item'>
+            <text class='edit-item-title'>{{$item.title}}</text>
+            <input id={{$item.title}} type='number' placeholder='请输入' maxlength={{$item.maxLength}} value={{$item.value}}></input>
+          </div>
+        </block>
+      </div>
+      <div class='section margin-top' if='{{checkedCount>0}}'>
+        <block for='checkItems'>
+          <div class='edit-item' if='{{$item.isCheck}}'>
+            <text class='edit-item-title'>{{$item.title}}</text>
+            <input id={{$item.title}} type='number' placeholder='请输入' maxlength={{$item.maxLength}} value={{$item.value}}></input>
+          </div>
+        </block>
+      </div>
+      <div class='button margin-top' onclick='setDialogVisible(true)'>
+        <text class='button-text'>添加专项附加扣除</text>
+      </div>
+      <div class='float-button'>
+        <image class='float-button-icon' src='/Common/calculate.png'></image>
+      </div>
+    </div>
+    <div else class='content'>
+      <div class='section'>
+        <block for='checkItems'>
+          <div class='edit-item' onclick='checkItem($item)'>
+            <image if='{{$item.isCheck}}' class='check-box' src='/Common/check_box_check.png'></image>
+            <image else class='check-box' src='/Common/check_box_uncheck.png'></image>
+            <text class='check-item-title'>{{$item.title}}</text>
+          </div>
+        </block>
+      </div>
+      <div class='button margin-top' onclick='setDialogVisible(false)'>
+        <text class='button-text'>确认</text>
+      </div>
+    </div>
+  </div>
+</template>
+<style>
+.background-color-141a32 {
+  background-color: #141a32;
+}
+
+.margin-top {
+  margin-top: 32px;
+}
+
+.container {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: white;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.float-container {
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  padding: 16px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.float-button {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  width: 128px;
+  height: 128px;
+  border-radius: 64px;
+  background-color: #59d0cf;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.float-button-icon {
+  width: 64px;
+  height: 64px;
+  resize-mode: contain;
+}
+
+.text1 {
+  align-self: center;
+  margin-top: 16px;
+  font-size: 16px;
+  color: #999;
+}
+
+.text2 {
+  margin-bottom: 8px;
+  align-self: center;
+  font-size: 40px;
+  color: #1e2747;
+}
+
+.button {
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  background: linear-gradient(to right, #ff8755, #ff365d);
+  border-radius: 8px;
+}
+
+.button-text {
+  font-size: 32px;
+  color: white;
+}
+
+.edit-item {
+  height: 112px;
+  flex-direction: row;
+  align-items: center;
+  border-bottom-color: #eee;
+  border-bottom-width: 1px;
+}
+.edit-item-title {
+  font-size: 32px;
+  color: #999;
+}
+.edit-item-value {
+  font-size: 32px;
+  color: #999;
+}
+.check-item-title {
+  font-size: 32px;
+  color: #1e2747;
+}
+.check-box {
+  width: 32px;
+  height: 32px;
+  margin-right: 32px;
+}
+input {
+  flex: 1;
+  text-align: right;
+  font-size: 32px;
+  color: #1e2747;
+  placeholder-color: #ccc;
+}
+</style>
+<script>
+export default {
+  private: {
+    fixedItems: [
+      { title: '税前月薪', maxLength: 10, value: undefined },
+      { title: '公积金个人缴纳', maxLength: 10, value: undefined },
+      { title: '社保个人缴纳', maxLength: 10, value: undefined }
+    ]
+  },
+  protected: {
+    checkItems: [
+      { title: '子女教育', maxLength: 4, isCheck: false, value: undefined },
+      { title: '继续教育', maxLength: 4, isCheck: false, value: undefined },
+      { title: '大病医疗', maxLength: 4, isCheck: false, value: undefined },
+      { title: '住房贷款利息', maxLength: 4, isCheck: false, value: undefined },
+      { title: '住房租金', maxLength: 4, isCheck: false, value: undefined },
+      { title: '赡养老人', maxLength: 4, isCheck: false, value: undefined }],
+    checkedCount: 0,
+    dialog: false
+  },
+  checkItem(item, e) {
+    if (item.isCheck) {
+      item.isCheck = false;
+      this.checkedCount = this.checkedCount - 1;
+    } else {
+      item.isCheck = true;
+      this.checkedCount = this.checkedCount + 1;
+    }
+  },
+  setDialogVisible(visible) {
+    if (visible) {
+      this.fixedItems.forEach(element => {
+        const ele = this.$element(element.title).value;
+        debugger
+      });
+    }
+    console.log(this.fixedItems);
+    this.dialog = visible;
+  }
+}
+</script>
