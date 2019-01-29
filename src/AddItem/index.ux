@@ -1,0 +1,90 @@
+<template>
+  <div class='content'>
+    <div class='section'>
+      <block for='checkItems'>
+        <div class='edit-item' onclick='checkItem($item)'>
+          <image if='{{$item.isCheck}}' class='check-box' src='/Common/check_box_check.png'></image>
+          <image else class='check-box' src='/Common/check_box_uncheck.png'></image>
+          <text class='check-item-title'>{{$item.title}}</text>
+        </div>
+      </block>
+    </div>
+    <div class='button margin-top' onclick='confirm'>
+      <text class='button-text'>确认</text>
+    </div>
+  </div>
+</template>
+<style>
+.margin-top {
+  margin-top: 32px;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 32px;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background-color: white;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+.button {
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  background: linear-gradient(to right, #ff8755, #ff365d);
+  border-radius: 8px;
+}
+.button-text {
+  font-size: 32px;
+  color: white;
+}
+.edit-item {
+  height: 112px;
+  flex-direction: row;
+  align-items: center;
+  border-bottom-color: #eee;
+  border-bottom-width: 1px;
+}
+.check-item-title {
+  font-size: 32px;
+  color: #1e2747;
+}
+.check-box {
+  width: 48px;
+  height: 48px;
+  margin-right: 32px;
+}
+</style>
+<script>
+export default {
+  protected: {
+    checkItems: [],
+    checkedCount: 0
+  },
+  onInit() {
+    this.checkItems = JSON.parse(this.checkItems);
+    this.checkedCount = parseInt(this.checkedCount);
+  },
+  checkItem(item, e) {
+    if (item.isCheck) {
+      item.isCheck = false;
+      this.checkedCount = this.checkedCount - 1;
+    } else {
+      item.isCheck = true;
+      this.checkedCount = this.checkedCount + 1;
+    }
+  },
+  confirm() {
+    this.$app.savePair('checkItems', {
+      checkItems: this.checkItems,
+      checkedCount: this.checkedCount
+    });
+    this.$page.finish();
+  }
+}
+</script>

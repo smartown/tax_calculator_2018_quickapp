@@ -4,7 +4,7 @@
   "versionName": "1.0.0",
   "versionCode": "1",
   "minPlatformVersion": "101",
-  "icon": "/Common/logo.png",
+  "icon": "/Common/calculate.png",
   "features": [
     {
       "name": "system.prompt"
@@ -27,39 +27,31 @@
   "router": {
     "entry": "Index",
     "pages": {
-      "DemoDetail": {
-        "component": "index"
-      },
-      "About": {
-        "component": "index"
-      },
       "Index": {
         "component": "index"
-      }
-    },
-    "widgets": {
-      "CardDemo": {
-        "name": "CardDemo",
-        "decription": "快应用卡片展示",
-        "component": "index",
-        "path": "/CardDemo",
-        "features": []
+      },
+      "AddItem": {
+        "component": "index"
+      },
+      "Result": {
+        "component": "index"
       }
     }
   },
   "display": {
+    "backgroundColor": "#141a32",
     "titleBarBackgroundColor": "#141a32",
     "titleBarTextColor": "#ffffff",
     "menu": true,
     "pages": {
-      "DemoDetail": {
-        "titleBarText": "详情页"
-      },
-      "About": {
-        "menu": false
-      },
       "Index": {
         "titleBarText": "2018新个税计算器"
+      },
+      "AddItem": {
+        "titleBarText": "添加专项附加扣除"
+      },
+      "Result": {
+        "titleBarText": "计算结果"
       }
     }
   }

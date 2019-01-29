@@ -1,0 +1,177 @@
+<template>
+  <div class='content'>
+    <div class='section'>
+      <text class='result-item-title margin-top'>到手工资</text>
+      <text class='big-text'>{{result.到手工资.toFixed(2)}}</text>
+      <div class='result-item margin-top '>
+        <text class='result-item-title'>税前月薪</text>
+        <text class='result-item-value'>{{result.税前月薪}}</text>
+      </div>
+      <div class='result-item'>
+        <text class='result-item-title'>社保个人缴纳</text>
+        <text class='result-item-value'>{{result.社保个人缴纳}}</text>
+      </div>
+      <div class='result-item'>
+        <text class='result-item-title'>公积金个人缴纳</text>
+        <text class='result-item-value'>{{result.公积金个人缴纳}}</text>
+      </div>
+      <div class='result-item'>
+        <text class='result-item-title'>专项附加扣除</text>
+        <text class='result-item-value'>{{result.专项附加扣除}}</text>
+      </div>
+      <div class='result-item'>
+        <text class='result-item-title'>起征点</text>
+        <text class='result-item-value'>{{result.起征点}}</text>
+      </div>
+      <div class='result-item'>
+        <text class='result-item-title'>应纳税所得额</text>
+        <text class='result-item-value'>{{result.应纳税额.toFixed(2)}}</text>
+      </div>
+      <div class='result-item'>
+        <text class='result-item-title'>税率</text>
+        <text class='result-item-value'>{{result.税率}}</text>
+      </div>
+      <div class='result-item'>
+        <text class='result-item-title'>速算扣除数</text>
+        <text class='result-item-value'>{{result.速算扣除数}}</text>
+      </div>
+      <div class='result-item'>
+        <text class='result-item-title'>个人所得税</text>
+        <text class='result-item-value'>{{result.个人所得税.toFixed(2)}}</text>
+      </div>
+    </div>
+  </div>
+</template>
+<style>
+.margin-top {
+  margin-top: 32px;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 32px;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+.button {
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  background: linear-gradient(to right, #ff8755, #ff365d);
+  border-radius: 8px;
+}
+.button-text {
+  font-size: 32px;
+  color: white;
+}
+.result-item {
+  align-self: stretch;
+  height: 96px;
+  flex-direction: row;
+  align-items: center;
+  border-top-color: #eee;
+  border-top-width: 1px;
+}
+.result-item-title {
+  flex: 1;
+  font-size: 32px;
+  color: #999;
+}
+.result-item-value {
+  font-size: 32px;
+  color: #1e2747;
+}
+.big-text {
+  font-size: 96px;
+  color: #1e2747;
+}
+</style>
+<script>
+export default {
+  private: {
+    rule20181001: {
+      start: 5000,
+      rule: [
+        {
+          min: 0, max: 3000, ratio: 0.03, quick: 0
+        },
+        {
+          min: 3000, max: 12000, ratio: 0.1, quick: 210
+        },
+        {
+          min: 12000, max: 25000, ratio: 0.2, quick: 1410
+        },
+        {
+          min: 25000, max: 35000, ratio: 0.25, quick: 2660
+        },
+        {
+          min: 35000, max: 55000, ratio: 0.3, quick: 4410
+        },
+        {
+          min: 55000, max: 80000, ratio: 0.35, quick: 7160
+        },
+        {
+          min: 80000, max: -1, ratio: 0.45, quick: 15160
+        }
+      ]
+    }
+  },
+  protected: {
+    params: {},
+    result: undefined
+  },
+  onInit() {
+    this.params = JSON.parse(this.params);
+    this.result = this.calculate(this.params, this.rule20181001);
+  },
+  calculate({ 税前月薪, 社保个人缴纳, 公积金个人缴纳, 专项附加扣除 }, rule) {
+    //应纳税所得税额
+    let 应纳税额 = 税前月薪 - 社保个人缴纳 - 公积金个人缴纳 - 专项附加扣除 - rule.start;
+    if (应纳税额 < 0) {
+      应纳税额 = 0;
+    }
+
+    //速算扣除数
+    let 速算扣除数 = 0;
+    //税率
+    let 税率 = 0;
+    //个人所得税=应纳所得税额×税率-速算扣除数
+    let 个人所得税 = 0;
+
+    if (应纳税额 > 0) {
+      let jisuanguize;
+      for (let item of rule.rule) {
+        if (应纳税额 > item.min && (应纳税额 <= item.max || item.max === -1)) {
+          jisuanguize = item;
+          break
+        }
+      }
+      if (jisuanguize) {
+        速算扣除数 = jisuanguize.quick;
+        税率 = jisuanguize.ratio;
+        个人所得税 = 应纳税额 * 税率 - 速算扣除数;
+      }
+    }
+    return {
+      税前月薪: 税前月薪,
+      社保个人缴纳: 社保个人缴纳,
+      公积金个人缴纳: 公积金个人缴纳,
+      专项附加扣除: 专项附加扣除,
+      起征点: rule.start,
+      应纳税额: 应纳税额,
+      税率: 税率,
+      个人所得税: 个人所得税,
+      速算扣除数: 速算扣除数,
+      到手工资: 税前月薪 - 社保个人缴纳 - 公积金个人缴纳 - 个人所得税
+    }
+  }
+
+}
+</script>

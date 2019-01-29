@@ -1,11 +1,19 @@
 <script>
-  /**
-   * 应用级别的配置，供所有页面公用
-   */
-  import util from './util'
-
-  export default {
-    showMenu: util.showMenu,
-    createShortcut: util.createShortcut
-  }
+/**
+ * 应用级别的配置，供所有页面公用
+ */
+export default {
+    onCreate() {
+        this.pairs = {};
+    },
+    savePair(key, value) {
+        this.pairs[key] = value;
+    },
+    removePair(key) {
+        this.pairs[key] = undefined;
+    },
+    getValue(key) {
+        return this.pairs[key];
+    }
+}
 </script>
