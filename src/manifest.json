@@ -1,6 +1,6 @@
 {
-  "package": "win.smartown.taxcalculator2018",
-  "name": "2018新个税计算器",
+  "package": "win.smartown.taxcalculator",
+  "name": "新个税计算器",
   "versionName": "1.0.0",
   "versionCode": "1",
   "minPlatformVersion": "101",
