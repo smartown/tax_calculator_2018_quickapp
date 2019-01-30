@@ -1,9 +1,11 @@
 <script>
+import './appStatistics.min.js'
 /**
  * 应用级别的配置，供所有页面公用
  */
 export default {
     onCreate() {
+        APP_STATISTICS.app_sta_init(this);
         this.pairs = {};
     },
     savePair(key, value) {
@@ -14,6 +16,15 @@ export default {
     },
     getValue(key) {
         return this.pairs[key];
+    },
+    onError(err) {
+        try {
+            // 错误统计打点代码
+            APP_STATISTICS.on_err(err);
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 }
 </script>

@@ -131,6 +131,12 @@ export default {
     this.params = JSON.parse(this.params);
     this.result = this.calculate(this.params, this.rule20181001);
   },
+  onShow() {
+    APP_STATISTICS.page_show(this);
+  },
+  onHide() {
+    APP_STATISTICS.page_hide(this);
+  },
   calculate({ 税前月薪, 社保个人缴纳, 公积金个人缴纳, 专项附加扣除 }, rule) {
     //应纳税所得税额
     let 应纳税额 = 税前月薪 - 社保个人缴纳 - 公积金个人缴纳 - 专项附加扣除 - rule.start;

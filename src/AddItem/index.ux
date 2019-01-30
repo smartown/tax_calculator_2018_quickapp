@@ -66,6 +66,12 @@ export default {
     checkItems: [],
     checkedCount: 0
   },
+  onShow() {
+    APP_STATISTICS.page_show(this);
+  },
+  onHide() {
+    APP_STATISTICS.page_hide(this);
+  },
   onInit() {
     this.checkItems = JSON.parse(this.checkItems);
     this.checkedCount = parseInt(this.checkedCount);

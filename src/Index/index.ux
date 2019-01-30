@@ -116,11 +116,15 @@ export default {
     checkedCount: 0
   },
   onShow() {
+    APP_STATISTICS.page_show(this);
     const data = this.$app.getValue('checkItems');
     if (data) {
       this.checkItems = data.checkItems;
       this.checkedCount = data.checkedCount;
     }
+  },
+  onHide() {
+    APP_STATISTICS.page_hide(this);
   },
   addItem() {
     router.push({
