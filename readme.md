@@ -1,7 +1,7 @@
 # 新个税计算器[快应用]
-![logo](/screenshot/logo_512.png)
+<img src='/screenshot/logo_512.png' width='50%'></img>
 # 截图
-![首页](/screenshot/1.png)
-![添加专项附加扣除](/screenshot/2.png)
-![首页-输入数据](/screenshot/3.png)
-![计算结果](/screenshot/4.png)
+<img src='/screenshot/1.png' width='50%'></img>
+<img src='/screenshot/2.png' width='50%'></img>
+<img src='/screenshot/3.png' width='50%'></img>
+<img src='/screenshot/4.png' width='50%'></img>
